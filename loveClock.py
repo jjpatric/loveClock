@@ -1,4 +1,3 @@
-#!python3.6
 
 import datetime
 import time
@@ -7,19 +6,18 @@ import math
 def getNow():
     return datetime.datetime.now()
 
-
 def inputToDate(input):
     optionsDict = {
-        "1"             : "   first  met   ",
-        "first met"     : "   first  met   ",
-        "2"             : "   got engaged  ",
-        "got engaged"   : "   got engaged  ",
-        "3"             : "   got married  ",
-        "got married"   : "   got married  ",
-        "4"             : "  got our puppy ",
-        "got our puppy" : "  got our puppy "
+        "1"             : "first  met    ",
+        "first met"     : "first  met    ",
+        "2"             : "got engaged   ",
+        "got engaged"   : "got engaged   ",
+        "3"             : "got married   ",
+        "got married"   : "got married   ",
+        "4"             : "got our puppy ",
+        "got our puppy" : "got our puppy "
     }
-    option = optionsDict.getKey(input, "not found")
+    option = optionsDict.get(input, "not found")
     return option
 
 
@@ -43,32 +41,38 @@ def displayLove(option, date):
         return date - getNow()
 
 
-    def fixThing(thing):
-        thing[0] = thing[0] - 1
-        thing[1] = 12 + thing[1]
+    def fixThing(thing, t, c):
+        thing[t-1] = thing[t-1] - 1
+        thing[t] = c + thing[t]
 
     now = getNow()
 
-    years = now.year - date.year
-    months = now.month - date.month
-    if (months < 0):
-        fixThing([years, months, 12])
-    days = now.day - date.day
-    if (days < 0):
-        fixThing([months, days, 31]) # not perfect
-    hours = now.hour - date.hour
-    if (hours < 0):
-        fixThing([days, hours, 24])
-    minutes = now.minute - date.minute
-    if (minutes < 0):
-        fixThing([hours, minutes, 60])
-    seconds = now.second - date.second
-    if (seconds < 0):
-        fixThing([minutes, seconds, 60])
+    diffs = [0, 1, 2, 3, 4, 5]
+    diffs[0] = now.year - date.year
 
-    dateStrYM = "{:^4} years {:^2} months".format(years, months)
-    dateStrDH = "{:^2} days {:^4} hours".format(days, hours)
-    dateStrMS = "{:^6} minutes and {:^8} seconds".format(minutes, seconds)
+    diffs[1] = now.month - date.month
+    if (diffs[1] < 0):
+        fixThing(diffs, 1, 12)
+
+    diffs[2] = now.day - date.day
+    if (diffs[2] < 0):
+        fixThing(diffs, 2, 31) # not perfect
+
+    diffs[3] = now.hour - date.hour
+    if (diffs[3] < 0):
+        fixThing(diffs, 3, 24)
+
+    diffs[4] = now.minute - date.minute
+    if (diffs[4] < 0):
+        fixThing(diffs, 4, 60)
+
+    diffs[5] = now.second - date.second
+    if (diffs[5] < 0):
+        fixThing(diffs, 5, 60)
+    
+    dateStrYM = "{:^4} years {:^2} months".format(diffs[0], diffs[1])
+    dateStrDH = "{:^2} days {:^4} hours".format(diffs[2], diffs[3])
+    dateStrMS = "{:^6} minutes and {:^8} seconds".format(diffs[4], diffs[5])
 
     print("               ------                     -------               ")
     print("             ./      \.                 ./       \.             ")
@@ -106,10 +110,13 @@ def loveClock():
 
 def main():
     inputD = loveClock()
+    print("inputD = ", inputD)
     option = inputToDate(inputD)
+    print("option = ", option)
     chosenDate = convertToDate(option)
+    print("chosenDate = ", chosenDate)
     displayLove(option, chosenDate)
-    input("Do you love me?")
+    input("Do you love me? ")
 
 
 main()
