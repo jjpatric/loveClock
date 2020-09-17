@@ -8,15 +8,11 @@ def getNow():
 
 def inputToDate(input):
     optionsDict = {
-        "1"             : "first  met    ",
-        "first met"     : "first  met    ",
-        "2"             : "got engaged   ",
-        "got engaged"   : "got engaged   ",
-        "3"             : "got married   ",
-        "got married"   : "got married   ",
-        "4"             : "got our puppy ",
-        "got our puppy" : "got our puppy "
-    }
+        "1":"first  met    ",
+        "2":"got engaged   ",
+        "3":"got married   ",
+        "4":"got our puppy ",
+        "5":"asked you out "}
     option = optionsDict.get(input, "not found")
     return option
 
@@ -27,7 +23,8 @@ def convertToDate(chosenOption):
         "first  met    "    : datetime.datetime(2018, 3, 3, 22, 30),
         "got engaged   "  : datetime.datetime(2018, 11, 14, 21, 20),
         "got married   "  : datetime.datetime(2019, 2, 15, 18, 30),
-        "got our puppy " : datetime.datetime(2019, 1, 10, 10, 10)
+        "got our puppy " : datetime.datetime(2019, 1, 10, 10, 10),
+        "asked you out " : datetime.datetime(2018, 3, 23, 19, 0)
     }
 
     chosenDate = optionSwitcher.get(chosenOption, "not found")
@@ -110,13 +107,12 @@ def loveClock():
 
 def main():
     inputD = loveClock()
-    print("inputD = ", inputD)
+    #print("inputD = ", inputD)
     option = inputToDate(inputD)
-    print("option = ", option)
+    #print("option = ", option)
     chosenDate = convertToDate(option)
-    print("chosenDate = ", chosenDate)
+    #print("chosenDate = ", chosenDate)
     displayLove(option, chosenDate)
-    input("Do you love me? ")
 
 
 main()
